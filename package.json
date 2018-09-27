@@ -1,0 +1,27 @@
+{
+	"scope": "@Stm32p103",
+	"name": "@Stm32p103/ngrx-utility",
+	"version": "1.0.0",
+	"description": "Provide efficient way to define actions and reducers for ngrx.",
+	"keywords": [
+		"ngrx"
+	],
+	"repository": "https://github.com/stm32p103/ngrx-utility",
+	"license": "MIT",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"postinstall": "postinstall-build dist",
+		"beta-release": "npm publish --tag beta --access public",
+		"release": "npm publish --tag latest --access public"
+	},
+	"dependencies": {
+		"postinstall-build": "^5.0.1"
+	},
+	"devDependencies": {
+  },
+	"buildDependencies": {
+		"typescript": "*"
+	}
+}
