@@ -1,4 +1,4 @@
-import { ToAction, ReducerFactory } from '../dist';
+import { ToAction, ReducerFactory, toActionName } from '../dist';
 
 // define action
 export class CounterActions {
@@ -45,8 +45,6 @@ factory.add( CounterActions.preset,    ( count: number, preset: number ) => pres
 const counterReducer = factory.create( 0 );  // initial value = 0
 
 
-
-
 // try reducer (instead of embed in ngrx, just call reducer)
 let count: number;
 console.log( '----------------------------------------------' );
@@ -67,4 +65,17 @@ for( let i = 0; i < 5; i++ ) {
     count = counterReducer( count, CounterActions.decrement() );
     console.log( count );    
 }
+
+
 console.log( '----------------------------------------------' );
+console.log( 'Get action name' );
+console.log( toActionName( CounterActions.increment ) );
+console.log( toActionName( CounterActions.decrement ) );
+console.log( toActionName( CounterActions.preset ) );
+
+
+console.log( '----------------------------------------------' );
+console.log( 'Get action names' );
+console.log( toActionName( CounterActions.increment, CounterActions.decrement, CounterActions.preset ) );
+
+

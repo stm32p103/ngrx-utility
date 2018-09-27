@@ -115,3 +115,6 @@ export class AppComponent {
     }
 }
 ```
+
+## Get action name
+Call `actionName( action | action[] ): string[]` function.

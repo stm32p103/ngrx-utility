@@ -7,8 +7,8 @@ export interface ActionWithPayload {
 }
 
 //local types
-type Reducer<T> = ( state: T, payload?: any ) => T;
-type ActionReducer<T> = ( state: T, action: ActionWithPayload ) => T;
+export type Reducer<T> = ( state: T, payload?: any ) => T;
+export type ActionReducer<T> = ( state: T, action: ActionWithPayload ) => T;
 
 // wrap static method to return Action with Payload
 export function ToAction(): MethodDecorator {
@@ -37,7 +37,7 @@ export function ToAction(): MethodDecorator {
 }
 
 // find action name by static method
-function actionName( ...actions: any[] ) {
+export function toActionName( ...actions: any[] ): string[] {
     let names = actions.map( action => DICTIONARY.get( action ) );
     return names;
 }
@@ -47,7 +47,7 @@ export class ReducerFactory<T> {
     private reducers: { [ action: string ]: Reducer<T> } = {};
     
     add( actions: Function | Function[], reducer: Reducer<T> ) {
-        let actionNames = actionName( actions );
+        let actionNames = toActionName( actions );
         actionNames.map( action => {
             this.reducers[ action ] = reducer;
         } );
