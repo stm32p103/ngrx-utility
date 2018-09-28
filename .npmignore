@@ -5,3 +5,4 @@ dist-test
 test
 tsconfig.test.json
 package-lock.json
+example
