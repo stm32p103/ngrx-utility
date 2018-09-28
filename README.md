@@ -124,5 +124,18 @@ export class AppComponent {
 }
 ```
 
-## Get action name
-Call `actionName( action | action[] ): string[]` function.
+## Effects
+Pipe `payloadOf` operator after `actions$` observable. 
+```
+@Injectable()
+export class EffectTest {
+    constructor(
+        private actions$: Actions
+    ) {}
+
+    @Effect( { dispatch: false } ) increment$ = this.actions$.pipe(
+        payloadOf( CounterActions.preset ),
+        map( payload => console.log( JSON.stringify( payload ) ) )
+    );
+}
+```

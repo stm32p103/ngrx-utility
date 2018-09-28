@@ -1,7 +1,7 @@
 {
 	"scope": "@stm32p103",
 	"name": "@stm32p103/ngrx-utility",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Provide efficient way to define actions and reducers for ngrx.",
 	"keywords": [
 		"ngrx"
@@ -18,9 +18,11 @@
 		"release": "npm publish --tag latest --access public"
 	},
 	"dependencies": {
-		"postinstall-build": "^5.0.3"
+		"postinstall-build": "^5.0.3",
+		"rxjs": "^6.0.0"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+	},
 	"buildDependencies": {
 		"typescript": "*"
 	}
