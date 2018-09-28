@@ -1,6 +1,14 @@
 # ngrx-utility
 Provide efficient way to define actions and reducers for ngrx.
 
+# Example
+```
+npm run build
+cd example\NgrxUtilitySample
+npm install
+ng serve
+```
+
 # Usage
 ## Define actions
 Apply `ToAction` decorator to static method. `doSomething` method returns an action like { type: 'doSomething.Actions', payload: returnValue }.

@@ -4,6 +4,7 @@
 dist/**/*
 dist-test/**/*
 tmp/**/*
+example/**/*
 
 # dependencies
 /node_modules
