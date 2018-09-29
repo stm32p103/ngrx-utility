@@ -1,7 +1,7 @@
 {
 	"scope": "@stm32p103",
 	"name": "@stm32p103/ngrx-utility",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Provide efficient way to define actions and reducers for ngrx.",
 	"keywords": [
 		"ngrx"

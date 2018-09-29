@@ -65,7 +65,7 @@ function toActionName( actions: Function[] ): string[] {
 export const payloadOf = ( ...actions: Function[] ) => ( source: Observable<ActionWithPayload> ) => {
     const actionNames: string[] = toActionName( actions );
     return source.pipe( 
-        filter( target => ( actionNames.find( action => action === target.type ) !== undefined ) ),
+        filter( target => ( actionNames.includes( target.type ) ) ),
         map( target => target.payload )
     );
 }

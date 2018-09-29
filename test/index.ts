@@ -1,4 +1,4 @@
-import { ToAction, ReducerFactory, toActionName } from '../dist';
+import { ToAction, ReducerFactory } from '../dist';
 
 // define action
 export class CounterActions {
@@ -65,17 +65,5 @@ for( let i = 0; i < 5; i++ ) {
     count = counterReducer( count, CounterActions.decrement() );
     console.log( count );    
 }
-
-
-console.log( '----------------------------------------------' );
-console.log( 'Get action name' );
-console.log( toActionName( CounterActions.increment ) );
-console.log( toActionName( CounterActions.decrement ) );
-console.log( toActionName( CounterActions.preset ) );
-
-
-console.log( '----------------------------------------------' );
-console.log( 'Get action names' );
-console.log( toActionName( CounterActions.increment, CounterActions.decrement, CounterActions.preset ) );
 
 
