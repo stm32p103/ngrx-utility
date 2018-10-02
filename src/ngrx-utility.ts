@@ -18,15 +18,14 @@ export type Reducer<T> = ( state: T, payload?: any ) => T;
 export type ActionReducer<T> = ( state: T, action: ActionWithPayload ) => T;
 
 
-
 // wrap static method to return Action with Payload
 export function ToAction(): MethodDecorator {
     return function( target: any, propertyKey: string, descriptor: PropertyDescriptor ) {
         // original method
         let original = descriptor.value; 
         
-        // action name = method.class
-        const name = propertyKey + '.' + target.name;
+        // action name = [class] method
+        const name = '[' + target.name + '] ' + propertyKey;
 
         // --------------------------------------------------------------------
         // new method: wrap original method
@@ -44,7 +43,6 @@ export function ToAction(): MethodDecorator {
         DICTIONARY.set( descriptor.value, name );
     }
 }
-
 
 
 // find action name by static method
@@ -84,7 +82,6 @@ export class ReducerFactory<T> {
         } else {
             actionNames = toActionName( [ actions ] );
         }
-        
         actionNames.map( action => {
             this.reducers[ action ] = reducer;
         } );
