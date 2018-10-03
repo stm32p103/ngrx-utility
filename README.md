@@ -11,38 +11,12 @@ ng serve
 
 # Usage
 ## Define actions
-Apply `ToAction` decorator to static method. `doSomething` method returns an action like { type: 'doSomething.Actions', payload: returnValue }.
-```
-export class Actions {
-    @ToAction()
-    static doSomething(): any {
-        ...
-        return returnValue;
-    }
-}
-```
-
-### Example
+Create static property using `ToAction<T>( actionName, payloader: (...arg:any[] ) => T ): ActionWithPayload<T>`.
 ```
 export class CounterActions {
-    @ToAction()
-    static increment(): any {
-        console.log( 'increment action' );
-        // return value = { type: 'increment.CounterActions', payload: undefined }
-    }
-
-    @ToAction()
-    static decrement(): any {
-        console.log( 'decrement action' );
-        // return value = { type: 'decrement.CounterActions', payload: undefined }
-    }
-    
-    @ToAction()
-    static preset( n: number ): any {
-        console.log( 'preset action' );
-        return n;
-        // return value = { type: 'decrement.CounterActions', payload: n }
-    }
+    static increment = ToAction( '[Counter] Increment', () => {} );
+    static decrement = ToAction( '[Counter] Decrement', () => {} );
+    static preset    = ToAction( '[Counter] Preset',    ( n: number ) => n );
 }
 ```
 
@@ -56,22 +30,17 @@ To define reducer,
 ```
 const factory = new ReducerFactory<number>();
 
-// add( action | actions, reducer: ( state, action's payload ) => next state )
-factory.add( CounterActions.increment, ( count: number ) => {
-    return count + 1;
-} );
-
-factory.add( CounterActions.decrement, ( count: number ) => {
-    return count - 1;
-} );
-
-factory.add( CounterActions.preset, ( count: number, preset: number ) => {
-    return preset;
-} );
+factory.add( CounterActions.increment, ( count ) => count + 1 );
+factory.add( CounterActions.decrement, ( count ) => count - 1 );
+factory.add( CounterActions.preset,    ( count, preset ) => preset );
 
 // create( initial value );
 export const counterReducer = factory.create( 0 );
 ```
+Note that, Typescript infers types of payload from specified actions. So if you specify wrong type in reducer, typescript warns you.
+![Type inference](https://photos.app.goo.gl/KACRCpHuNwHavdHy6)
+![Type inference error](https://photos.app.goo.gl/Sy9FYBNofB7A9ifMA)
+![Type inference error](https://photos.app.goo.gl/2cN4GGFyBDCSQDNU9)
 
 ## Embed in ngrx
 As usual...

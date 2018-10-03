@@ -11,11 +11,11 @@ export interface ActionWithPayload<T> {
 
 export type ActionCreator<T> = ( ...args: any[] ) => ActionWithPayload<T>; 
 export type Reducer<S,T> = ( state: S, payload: T ) => S;
-export function ToAction<T>( type: string, creator: ( ...args: any[] ) => T ): ActionCreator<T> {
+export function ToAction<T>( type: string, payloader: ( ...args: any[] ) => T ): ActionCreator<T> {
     const actionCreator = ( ...arg ) => {
         return {
             type: type,
-            payload: creator( ...arg )
+            payload: payloader( ...arg )
         }
     }
     DICTIONARY.set( actionCreator, type );
@@ -37,11 +37,11 @@ function toActionName( actions: ActionCreator<any>[] ): string[] {
 }
 
 //pipable operator: https://github.com/ReactiveX/rxjs/blob/master/doc/pipeable-operators.md
-export const payloadOf = <T>( ...actions: ActionCreator<T>[] ) => ( source: Observable<ActionWithPayload<T>> ) => {
+export const payloadOf = <T>( ...actions: ActionCreator<T>[] ) => ( source: Observable<ActionWithPayload<any>> ) => {
     const actionNames: string[] = toActionName( actions );
     return source.pipe(
         filter( target => ( actionNames.includes( target.type ) ) ),
-        map( target => target.payload )
+        map( target => target.payload as T )
     );
 }
 

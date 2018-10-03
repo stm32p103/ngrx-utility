@@ -25,6 +25,23 @@ factory.add( CounterActions.increment, ( count ) => count + 1 );
 factory.add( CounterActions.decrement, ( count ) => count - 1 );
 factory.add( CounterActions.preset,    ( count, preset ) => preset );
 
+// actionCreators are compatible -> OK
+//factory.add( [ CounterActions.decrement,
+//               CounterActions.increment ] , ( count ) => count - 1 );
+
+// actionCreators are incompatible -> NG
+//factory.add( [ CounterActions.decrement,
+//               CounterActions.preset ] , ( count ) => count - 1 );
+
+
+
+
+
+
+
+
+
+
 // define reducer
 const counterReducer = factory.create( 0 );  // initial value = 0
 

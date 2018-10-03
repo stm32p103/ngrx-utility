@@ -3,6 +3,7 @@ tmp
 dist
 dist-test
 test
+img
 tsconfig.test.json
 package-lock.json
 example
