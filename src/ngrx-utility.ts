@@ -4,51 +4,30 @@ import { filter, map } from 'rxjs/operators';
 // to store action name...not so good way.
 const DICTIONARY = new Map<any,string>();
 
-
-
-export interface ActionWithPayload {
+export interface ActionWithPayload<T> {
     type: string;
-    payload?: any;
+    payload?: T;
 }
 
-
-
-//local types
-export type Reducer<T> = ( state: T, payload?: any ) => T;
-export type ActionReducer<T> = ( state: T, action: ActionWithPayload ) => T;
-
-
-// wrap static method to return Action with Payload
-export function ToAction(): MethodDecorator {
-    return function( target: any, propertyKey: string, descriptor: PropertyDescriptor ) {
-        // original method
-        let original = descriptor.value; 
-        
-        // action name = [class] method
-        const name = '[' + target.name + '] ' + propertyKey;
-
-        // --------------------------------------------------------------------
-        // new method: wrap original method
-        descriptor.value = function(): ActionWithPayload {
-            const retVal = original.apply( this, arguments );
-            const action: ActionWithPayload = {
-                type: name,
-                payload: retVal
-            };
-            return action;
+export type ActionCreator<T> = ( ...args: any[] ) => ActionWithPayload<T>; 
+export type Reducer<S,T> = ( state: S, payload: T ) => S;
+export function ToAction<T>( type: string, creator: ( ...args: any[] ) => T ): ActionCreator<T> {
+    const actionCreator = ( ...arg ) => {
+        return {
+            type: type,
+            payload: creator( ...arg )
         }
-        // --------------------------------------------------------------------
-        
-        // register action name
-        DICTIONARY.set( descriptor.value, name );
     }
+    DICTIONARY.set( actionCreator, type );
+    return actionCreator;
 }
-
 
 // find action name by static method
-function toActionName( actions: Function[] ): string[] {
+function toActionName( actions: ActionCreator<any>[] ): string[] {
     let names = actions.map( action => {
         let tmp = DICTIONARY.get( action );
+        
+        console.log( tmp )
         if( tmp === undefined ) {
             throw new Error( 'No such action' );
         }
@@ -57,24 +36,20 @@ function toActionName( actions: Function[] ): string[] {
     return names;
 }
 
-
-
 //pipable operator: https://github.com/ReactiveX/rxjs/blob/master/doc/pipeable-operators.md
-export const payloadOf = ( ...actions: Function[] ) => ( source: Observable<ActionWithPayload> ) => {
+export const payloadOf = <T>( ...actions: ActionCreator<T>[] ) => ( source: Observable<ActionWithPayload<T>> ) => {
     const actionNames: string[] = toActionName( actions );
-    return source.pipe( 
+    return source.pipe(
         filter( target => ( actionNames.includes( target.type ) ) ),
         map( target => target.payload )
     );
 }
 
-
-
 // help defining reducer
-export class ReducerFactory<T> {
-    private reducers: { [ action: string ]: Reducer<T> } = {};
+export class ReducerFactory<S> {
+    private reducers: { [ action: string ]: Reducer<S,any> } = {};
     
-    add( actions: Function | Function[], reducer: Reducer<T> ) {
+    add<T>( actions: ActionCreator<T> | ActionCreator<T>[], reducer: Reducer<S,T> ) {
         let actionNames: string[];
     
         if( actions instanceof Array ) {
@@ -87,9 +62,9 @@ export class ReducerFactory<T> {
         } );
     }
     
-    create( initialState: T ): ActionReducer<T> {
+    create( initialState: S ): Reducer<S,any> {
         const reducers = { ...this.reducers };  // copy
-        return ( state: T = initialState, action: ActionWithPayload ) => {
+        return ( state: S = initialState, action: ActionWithPayload<any> ) => {
             const reducer = reducers[ action.type ];
             let ret = state;
             

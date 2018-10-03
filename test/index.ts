@@ -2,24 +2,10 @@ import { ToAction, ReducerFactory } from '../dist';
 
 // define action
 export class CounterActions {
-    @ToAction()
-    static increment(): any {
-        // no payload
-    }
-
-    @ToAction()
-    static decrement(): any {
-        // no payload
-    }
-    
-    @ToAction()
-    static preset( n: number ): any {
-        // payload = n
-        return n;
-    }
+    static increment = ToAction( '[Counter] Increment', () => {} );
+    static decrement = ToAction( '[Counter] Decrement', () => {} );
+    static preset    = ToAction( '[Counter] Preset',    ( n: number ) => n );
 }
-
-
 
 console.log( '----------------------------------------------' );
 console.log( 'Try increment, decrement, preset...' );
@@ -30,16 +16,14 @@ console.log( CounterActions.preset( 5 ) ); // { type: preset.CounterActions, pay
 console.log( '----------------------------------------------' );
 console.log( 'to dispatch in ngrx, call store.dispatch( CounterActions.increment() )' );
 
-
-
-
 //build reducer factory
 const factory = new ReducerFactory<number>();
 
-// add( action, ( state: T, payload? any ) => T );
-factory.add( CounterActions.increment, ( count: number ) => count + 1 );
-factory.add( CounterActions.decrement, ( count: number ) => count - 1 );
-factory.add( CounterActions.preset,    ( count: number, preset: number ) => preset );
+// add( actionCreator, ( state: S, payload? T ) => S );
+// I think it could be typesafe
+factory.add( CounterActions.increment, ( count ) => count + 1 );
+factory.add( CounterActions.decrement, ( count ) => count - 1 );
+factory.add( CounterActions.preset,    ( count, preset ) => preset );
 
 // define reducer
 const counterReducer = factory.create( 0 );  // initial value = 0

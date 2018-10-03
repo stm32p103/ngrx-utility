@@ -6,35 +6,15 @@ import { Injectable } from '@angular/core';
 import { ReducerFactory, ToAction } from '../../../../dist';
 
 export class CounterActions {
-    @ToAction()
-    static increment(): any {
-        console.log( 'increment action' );
-    }
-
-    @ToAction()
-    static decrement(): any {
-        console.log( 'decrement action' );
-    }
-    
-    @ToAction()
-    static preset( n: number ): any {
-        console.log( 'preset action' );
-        return n;
-    }
+    static increment = ToAction( '[Counter] Increment', () => {} );
+    static decrement = ToAction( '[Counter] Decrement', () => {} );
+    static preset    = ToAction( '[Counter] Preset',    ( n: number ) => n );
 }
 
 const factory = new ReducerFactory<number>();
 
-factory.add( CounterActions.increment, ( count: number ) => {
-    return count + 1;
-} );
-
-factory.add( CounterActions.decrement, ( count: number ) => {
-    return count - 1;
-} );
-
-factory.add( CounterActions.preset, ( count: number, preset: number ) => {
-    return preset;
-} );
+factory.add( CounterActions.increment, ( count ) => count + 1 );
+factory.add( CounterActions.decrement, ( count ) => count - 1 );
+factory.add( CounterActions.preset,    ( count, preset ) => preset );
 
 export const counterReducer = factory.create( 0 );
