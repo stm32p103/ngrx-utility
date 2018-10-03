@@ -39,8 +39,10 @@ export const counterReducer = factory.create( 0 );
 ```
 Note that, Typescript infers type of payload from specified actions. 
 ![Type inference](https://raw.githubusercontent.com/stm32p103/ngrx-utility/master/img/type-inference-1.png)
+
 If you specify wrong type in reducer arguments, typescript warns you as shown below.
 ![Type inference error](https://raw.githubusercontent.com/stm32p103/ngrx-utility/master/img/type-inference-2.png)
+
 Also actions are incompatible, typescript warns you as shown below.
 ![Type inference error](https://raw.githubusercontent.com/stm32p103/ngrx-utility/master/img/type-inference-3.png)
 
