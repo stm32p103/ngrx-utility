@@ -37,10 +37,12 @@ factory.add( CounterActions.preset,    ( count, preset ) => preset );
 // create( initial value );
 export const counterReducer = factory.create( 0 );
 ```
-Note that, Typescript infers types of payload from specified actions. So if you specify wrong type in reducer, typescript warns you.
-![Type inference](https://photos.app.goo.gl/KACRCpHuNwHavdHy6)
-![Type inference error](https://photos.app.goo.gl/Sy9FYBNofB7A9ifMA)
-![Type inference error](https://photos.app.goo.gl/2cN4GGFyBDCSQDNU9)
+Note that, Typescript infers type of payload from specified actions. 
+![Type inference](https://raw.githubusercontent.com/stm32p103/ngrx-utility/master/img/type-inference-1.png)
+If you specify wrong type in reducer arguments, typescript warns you as shown below.
+![Type inference error](https://raw.githubusercontent.com/stm32p103/ngrx-utility/master/img/type-inference-2.png)
+Also actions are incompatible, typescript warns you as shown below.
+![Type inference error](https://raw.githubusercontent.com/stm32p103/ngrx-utility/master/img/type-inference-3.png)
 
 ## Embed in ngrx
 As usual...
@@ -94,7 +96,7 @@ export class AppComponent {
 ```
 
 ## Effects
-Pipe `payloadOf` operator after `actions$` observable. 
+Pipe `payloadOf` operator after `actions$` observable.
 ```
 @Injectable()
 export class EffectTest {
