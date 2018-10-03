@@ -11,7 +11,7 @@ ng serve
 
 # Usage
 ## Define actions
-Create static property using `ToAction<T>( actionName, payloader: (...arg:any[] ) => T ): ActionWithPayload<T>`.
+Create static property using `ToAction<T>( actionName, payloader: (...arg:any[] ) => T ): ActionWithPayload<T>`. No decorator, less magical I think...
 ```
 export class CounterActions {
     static increment = ToAction( '[Counter] Increment', () => {} );
